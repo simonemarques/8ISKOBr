@@ -1,0 +1,33 @@
+Etapas na construção do MVP PARA ANÁLISE SEMÂNTICA EM CI:
+
+1) ACEITAR ARQUIVOS .PDF COMO INPUT
+
+Objetivos e motivações:
+	O script "AbreExtrai.py" tem a função de abrir um documento PDF e gerar um arquivo TXT (texto puro) com o texto extraído deste PDF.
+	Os arquivos PDF têm uma estrutura complexa e que quase sempre não permitem uma extração direta de texto ("copia e cola") sem vir com uma grande quantidade de problemas de formatação e, frequentemente, posicionamento incorretos dos elementos textuais. Por exemplo: um documento qualquer que contenha algumas páginas diagramadas em duas colunas e um rodapé de largura total pode resultar num texto extraído de uma coluna com parágrafos em lugar de cada quebra de linha, com o texto do rodapé num parágrafo  e um novo parágrafo seguido da próxima coluna de texto (esta com semelhantes problemas nas quebras de linha). Ao tentar extrair ou interpretar o conteúdo de um arquivo de PDF diretamente, um leitor não humano pode ter grande dificuldade em entender o valor semântico de um texto, já que ele pode se deparar com esses problemas que só são visíveis para nós quando fazemos extração direta. 
+	Considerando esta problemática, a solução encontrada foi extrair um texto de um arquivo PDF e salvá-lo em um arquivo de texto de fácil e rápida abertura a fim de verificar a coesão da interpretação e extração do texto e, caso necessário, corrigir manualmente.
+
+Funcionamento:
+	Ao executar o script "AbreExtrai.py", é solicitadao ao usuário informar o nome do arquivo PDF a ser aberto. O programa foi feito para procurar um arquivo com o nome informado na mesma pasta na qual ele está contido. Após informado o nome, o programa tenta abrir o arquivo, devolvendo mensagem de erro caso não encontre documento com o nome idêntico ao informado. Tendo realizado a leitura com sucesso, ele informa alguns metadados encontrados o arquivo PDF (como "autor" e "número de páginas") e salva um novo arquivo chamado "TextoExtraído.txt" contendo todo o conteúdo de texto legível encontrado no arquivo PDF.
+
+2) CRIAR UM "DICIONÁRIO" COM BASE EM TERMOS DEFINIDOS PELO USUÁRIO
+
+Objetivos e motivações:
+	O script "CriaAtualizaDicionario.py" tem a função de ler um arquivo de texto simples e criar um arquivo de "dicionário" Python para conter os termos encontrados no arquivo de texto.
+	Um "dicionário" no contexto de linguagens de programação tem a função de armazenar de forma rapidamente acessível dados organizados e relacionados entre si, de forma muito semelhante a um banco de dados, porém, com tamanho, segurança de acesso e complexidade em geral muito reduzida em relação aos bancos de dados propriamente ditos.
+	O projeto "MVP para Análise Semântica em CI" se propõe a realizar análises com base em uma termonologia predefinida usando programas e ferramentas da linguagem Python. Os termos a serem lidos pelo script em Python precisam estar organizados na estrutura com a qual ela trabalha. Entretanto, sua leitura, compreensão, e, principalmente, edição, requerem algum conhecimento em programação e não são triviais de serem realizados, mesmo para desenvolvedores.
+	Considerando esta problemática, a solução encontrada foi criar um programa para extrair os termos sobre o qual a análise será baseada a partir de um arquivo de texto simples, no formato de lista, em que, a partir da segunda linha, cada termo será lido e transformado em uma entrada no formato de "dicionário" da linguagem Python para ser posteriormente lida e trabalhada por outros programas.
+	Esta estratégia proporciona comodidade e facilidade aos usuários ao permitir que os termos a serem usados sejam escritos livremente de forma simples e intuitiva em um arquivo de texto, e posteriormente o programa lerá cada um deles e criará sua "tradução" para sua forma nativa de trabalho.
+	
+Funcionamento:
+	Ao executar o script "CriaAtualizaDicionario.py", o programa extrai todos os termos encontrados a partir da segunda linha do arquivo "Terminology.txt". Cada linha neste arquivo corresponderá a um termo, independentemente da quantidade de palavras ou caracteres. Os termos extraídos são então armazenados no formato de "dicionário" um por um no arquivo "Terminology_Dicionario.py", que é um arquivo que existe para este único propósito.
+	Caso o usuário queira modificar os termos que farão parte de sua análise, bastará editar e salvar o arquivo "Terminology.txt", removendo, incluindo ou alterando os termos em cada linha e em seguida executar novamente o script. Cada execução do script sobrescreve (ou cria, caso não exista) o arquivo "Terminology_Dicionario.py".
+	
+3) ANÁLISE DOS DADOS
+
+Objetivos e motivações:
+	Verificar a ocorrência de termos predefinidos em um documento de texto e informar onde foi localizada cada ocorrência encontrada e seu número de incidências.
+	A parte estatística (não semântica) da análise apenas busca correspondências para termos, servindo como um termômetro rápido para obter alguns dados sobre o documento a ser analisado - o que pode ser útil em casos de buscas simples, sem necessidade de aprofundamento nos resultados.
+
+Funcionamento:
+	Ao executar o script "AnalisaDados.py", o programa fará a leitura do dicionário contido em "Terminology_Dicionario.py" e buscará cada ocorrência exata de cada termo contido no dicionário. Ele retornará a quantidade de vezes em que cada um dos termos foi encontrado e os respectivos trechos de texto que os contêm em uma visualização rápida.  
